@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<body style="background:#121212; color:white; text-align:center;">
+
+<h1>Secure Notes Dashboard 🔐</h1>
+
+<h2>Welcome {{user}}</h2>
+
+<p>Continuous Authentication Running...</p>
+
+<textarea id="workArea"
+rows="15"
+cols="80"
+placeholder="Write your secure notes here..."
+style="padding:10px; font-size:18px;">
+</textarea>
+<br><br>
+<button onclick="verifyUser()">
+    Verify Identity
+</button>
+
+<script>
+
+let idleTime = 0;
+
+setInterval(function(){
+
+    idleTime++;
+
+    if(idleTime > 30){
+
+        alert("Session Expired");
+
+        window.location.replace("/");
+    }
+
+}, 1000);
+
+document.onmousemove = resetTimer;
+document.onkeypress = resetTimer;
+
+function resetTimer(){
+
+    idleTime = 0;
+}
+
+// ===== Mouse Tracking =====
+let mouseMoves = 0;
+
+document.addEventListener("mousemove", function(){
+    mouseMoves++;
+});
+
+// ===== Typing Tracking =====
+let timings = [];
+let lastTime = null;
+
+document.getElementById("workArea")
+.addEventListener("keydown", function(){
+
+    let now = Date.now();
+
+    if(lastTime != null){
+        timings.push(now - lastTime);
+    }
+
+    lastTime = now;
+});
+
+// ===== VERIFY FUNCTION =====
+function verifyUser(){
+
+    fetch("/monitor", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            mouse: mouseMoves,
+            typing: timings
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        console.log(data);
+
+        if(data.status == "intruder"){
+
+            alert("Intruder Detected ❌");
+
+            window.location.replace("/");
+
+        }else{
+
+            alert("User Verified ✅");
+
+            // reset values after verification
+            mouseMoves = 0;
+            timings = [];
+        }
+    })
+
+    .catch(error => {
+        console.log(error);
+        alert("Error occurred");
+    });
+}
+
+</script>
+
+</body>
+</html>

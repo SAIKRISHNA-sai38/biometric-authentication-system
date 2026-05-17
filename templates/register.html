@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<body style="text-align:center; margin-top:100px; background:#000428; color:white;">
+
+<h1>Register</h1>
+
+<form id="registerForm" method="post" enctype="multipart/form-data">
+
+<input name="username" placeholder="Username"><br><br>
+
+<input name="password" type="password" placeholder="Password"><br><br>
+
+<input type="file" name="bioimage"><br><br>
+
+
+<p>Type this sentence:</p>
+
+<b>secure login system</b><br><br>
+
+<input id="typingBox"><br><br>
+
+<input type="hidden" name="typingData" id="typingData">
+<input type="hidden" name="mouseData" id="mouseData">
+
+<button type="submit">Register</button>
+
+</form>
+
+<script>
+
+// ===== Typing Data =====
+let typingTimings = [];
+let lastKeyTime = null;
+
+document.getElementById("typingBox").addEventListener("keydown", function(){
+
+    let now = Date.now();
+
+    if(lastKeyTime != null){
+        typingTimings.push(now - lastKeyTime);
+    }
+
+    lastKeyTime = now;
+});
+
+// ===== Mouse Data =====
+let mouseMovements = 0;
+
+document.addEventListener("mousemove", function(){
+    mouseMovements++;
+});
+
+// ===== Send Data =====
+document.getElementById("registerForm").addEventListener("submit", function(){
+
+    document.getElementById("typingData").value =
+        JSON.stringify(typingTimings);
+
+    document.getElementById("mouseData").value =
+        mouseMovements;
+});
+
+</script>
+
+</body>
+</html>
