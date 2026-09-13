@@ -100,7 +100,7 @@ These events are recorded in fraud logs for monitoring.
 - NumPy
 - face-api.js
 - JSON
-- Cryptography
+- Cryptography (Fernet)
 - Dynamic Time Warping (DTW)
 - SQLite/JSON-based local data storage
 
