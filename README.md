@@ -104,6 +104,19 @@ These events are recorded in fraud logs for monitoring.
 - Dynamic Time Warping (DTW)
 - SQLite/JSON-based local data storage
 
+## Security Features
+
+- Multi-factor biometric authentication
+- Fernet symmetric encryption
+- Facial recognition
+- Fingerprint feature verification
+- Behavioral biometric analysis
+- Dynamic Time Warping
+- OTP-based transaction verification
+- Intruder detection
+- Session monitoring
+- Fraud monitoring
+  
 ## 🔄 System Workflow
 
 ```text
