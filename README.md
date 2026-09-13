@@ -1,60 +1,159 @@
-# Biometrics-Based Continuous Authentication System with Encryption
+# 🔐 Biometrics-Based Continuous Authentication System with Encryption
 
-## 📌 Project Overview
+A Flask-based security system that combines biometric and behavioral
+authentication to continuously verify a user's identity during a secure
+banking session.
 
-This project is a Flask-based security system that combines biometric authentication and behavioral biometrics for secure user verification.
+## 🚀 Key Features
 
-The system uses:
-- Fingerprint image upload
-- Random biometric point extraction
-- Typing pattern analysis
-- Mouse movement tracking
-- Cryptographic key generation
-- Continuous authentication
-- Intruder detection
+### 👤 Multi-Factor Registration
 
-The generated biometric key is used for secure authentication and encryption purposes.
+The registration process collects multiple identity and behavioral
+characteristics:
 
----
+- Username and password
+- Fingerprint image
+- Facial biometric profile
+- Typing rhythm
+- Key dwell time
+- Mouse movement behavior
 
-## 🚀 Features
+### 🔑 Secure Login
 
-- 🔐 Fingerprint-based authentication
-- ⌨️ Keystroke dynamics monitoring
-- 🖱️ Mouse movement behavior tracking
-- 🔑 Cryptographic key generation using SHA256
-- 🔄 Continuous authentication after login
-- 🚨 Intruder detection system
-- 📝 Intruder logging
-- 🔒 Encryption and decryption concept implementation
+The login process performs multiple verification stages:
 
----
+1. Username and password verification
+2. Fingerprint feature verification
+3. Typing rhythm analysis
+4. Key dwell-time analysis
+5. Mouse movement analysis
+6. Combined biometric scoring
 
-## 🛠️ Technologies Used
+### 📊 Behavioral Biometric Scoring
+
+The system uses **Dynamic Time Warping (DTW)** to compare behavioral
+patterns.
+
+The scoring system combines:
+
+- Typing intervals — 40%
+- Key dwell times — 30%
+- Mouse movement pattern — 20%
+- Overall typing duration — 10%
+
+A combined authentication score is calculated to determine whether the
+current user matches the registered behavioral profile.
+
+### 👁️ Continuous Face Authentication
+
+After successful login, the system continuously monitors the user's face.
+
+- Face verification runs periodically in the background.
+- Unknown faces generate warnings.
+- Multiple failed checks trigger automatic logout.
+- The system displays the current authentication status.
+
+### 🛡️ Intruder Detection
+
+The system detects suspicious activity through:
+
+- Failed password attempts
+- Fingerprint mismatch
+- Behavioral mismatch
+- Unknown face detection
+- Missing face detection
+- Session timeout
+
+Repeated authentication failures can automatically terminate the session.
+
+### 🏦 Secure Banking Dashboard
+
+The project includes a simulated banking environment with:
+
+- Account balance
+- Money transfers
+- OTP verification
+- Transaction history
+- Beneficiary management
+- Authentication status
+- Security reports
+- Intruder logs
+- Fraud logs
+
+### ⚠️ Fraud Monitoring
+
+The system records suspicious transaction patterns such as:
+
+- Large transfers
+- Multiple transfers during a session
+
+These events are recorded in fraud logs for monitoring.
+
+## 🧰 Technologies Used
 
 - Python
 - Flask
 - HTML
+- CSS
 - JavaScript
+- OpenCV
+- NumPy
+- face-api.js
 - JSON
-- Cryptography (Fernet)
-- Pillow (PIL)
+- Cryptography
+- Dynamic Time Warping (DTW)
+- SQLite/JSON-based local data storage
 
----
+## 🔄 System Workflow
 
-## 📂 Project Structure
-
-```plaintext
-biometric_project/
-│
-├── app.py
-├── crypto_utils.py
-├── users.json
-├── intruder_log.txt
-│
-├── static/
-│
-├── templates/
-│   ├── login.html
-│   ├── register.html
-│   └── dashboard.html
+```text
+                 ┌─────────────────────┐
+                 │      REGISTER       │
+                 └──────────┬──────────┘
+                            │
+            ┌───────────────┼────────────────┐
+            │               │                │
+            ▼               ▼                ▼
+       Fingerprint       Face Profile    Behavioral Data
+            │               │           ┌────┴─────┐
+            │               │           │          │
+            │               │        Typing      Mouse
+            │               │        Rhythm     Movement
+            └───────────────┼──────────────┬─────┘
+                            ▼              │
+                    Secure Data Storage   │
+                            │              │
+                            ▼              │
+                         LOGIN ◄───────────┘
+                            │
+             ┌──────────────┼───────────────┐
+             ▼              ▼               ▼
+        Fingerprint     Behavioral       Password
+        Verification    Verification    Verification
+             │              │               │
+             └──────────────┼───────────────┘
+                            ▼
+                   Authentication Score
+                            │
+                       ┌────┴────┐
+                       │         │
+                    PASS       FAIL
+                       │         │
+                       ▼         ▼
+                  Banking     Reject
+                  Dashboard
+                       │
+                       ▼
+             Continuous Monitoring
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+            Face     Behavior   Session
+          Monitoring   Check     Monitor
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                Intruder Detection
+                       │
+                       ▼
+                  Auto Logout
